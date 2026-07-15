@@ -5,42 +5,34 @@ import com.Beehive.beekeeper.Location.commandhandlers.DeleteLocationCommandHandl
 import com.Beehive.beekeeper.Location.commandhandlers.UpdateLocationCommand;
 import com.Beehive.beekeeper.Location.commandhandlers.UpdateLocationCommandHandler;
 import com.Beehive.beekeeper.Location.entities.Location;
+import com.Beehive.beekeeper.Location.entities.LocationDTO;
 import com.Beehive.beekeeper.Location.queryhandlers.GetAllLocationsQueryHandler;
 import com.Beehive.beekeeper.Location.queryhandlers.GetLocationQueryHandler;
 import com.Beehive.beekeeper.Location.repositories.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/location")
 public class LocationController {
 
     @Autowired private LocationRepository locationRepository;
-
     @Autowired private GetAllLocationsQueryHandler getAllLocationsQueryHandler;
-
     @Autowired private GetLocationQueryHandler getLocationQueryHandler;
-
     @Autowired private CreateLocationCommandHandler createLocationCommandHandler;
-
     @Autowired private UpdateLocationCommandHandler updateLocationCommandHandler;
-
     @Autowired private DeleteLocationCommandHandler deleteLocationCommandHandler;
 
     @GetMapping
-    public ResponseEntity<List<Location>> getLocation() {
+    public ResponseEntity<List<LocationDTO>> getLocation() {
         return getAllLocationsQueryHandler.execute(null);
     }
 
     @GetMapping ("/{id}")
-    public ResponseEntity <Location> getLocation(@PathVariable int id){
+    public ResponseEntity <LocationDTO> getLocation(@PathVariable int id){
         return getLocationQueryHandler.execute(id);
     }
 

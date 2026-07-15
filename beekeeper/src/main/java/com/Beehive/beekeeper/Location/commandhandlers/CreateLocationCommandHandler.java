@@ -1,8 +1,8 @@
 package com.Beehive.beekeeper.Location.commandhandlers;
 
-import ch.qos.logback.core.util.StringUtil;
 import com.Beehive.beekeeper.Location.entities.Location;
 import com.Beehive.beekeeper.Location.repositories.LocationRepository;
+import com.Beehive.beekeeper.exceptions.LocationsNotValidException;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +16,11 @@ public class CreateLocationCommandHandler implements Command <Location, Response
 
     private void validateLocation (Location location){
         if (StringUtils.isBlank(location.getName())){
-            throw new RuntimeException("Location name can't be empty");
+            throw new LocationsNotValidException("Location's name can't be empty");
         }
 
         if (location.getBeehivecount() <=0){
-            throw new RuntimeException("The quantity can't be negative or 0");
+            throw new LocationsNotValidException("Location's beehive count can't be negative or 0");
         }
     }
 
