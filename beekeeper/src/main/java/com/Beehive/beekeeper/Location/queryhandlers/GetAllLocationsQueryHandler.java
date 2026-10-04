@@ -17,11 +17,7 @@ public class GetAllLocationsQueryHandler implements Query<Void, List<LocationDTO
 
     @Override
     public ResponseEntity<List<LocationDTO>> execute(Void input) {
-        List<LocationDTO> locationDTO = locationRepository
-                .findAll()
-                .stream()
-                .map(LocationDTO::new)
-                .toList();
+        List<LocationDTO> locationDTO = locationRepository.getAllLocationDTO();
 
         return ResponseEntity.ok(locationDTO);
     }

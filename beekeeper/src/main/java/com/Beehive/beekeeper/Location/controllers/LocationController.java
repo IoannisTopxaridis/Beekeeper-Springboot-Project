@@ -26,6 +26,13 @@ public class LocationController {
     @Autowired private UpdateLocationCommandHandler updateLocationCommandHandler;
     @Autowired private DeleteLocationCommandHandler deleteLocationCommandHandler;
 
+
+    @GetMapping("/search/{mostBeehives}")
+    public ResponseEntity<List<Location>> findLocationbyCount(@PathVariable Integer mostBeehives){
+        return ResponseEntity.ok(locationRepository.findLocationsWithBeehiveCountLessThan(mostBeehives));
+
+    }
+
     @GetMapping
     public ResponseEntity<List<LocationDTO>> getLocation() {
         return getAllLocationsQueryHandler.execute(null);
@@ -36,19 +43,24 @@ public class LocationController {
         return getLocationQueryHandler.execute(id);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity createLocation (@RequestBody Location location){
         return createLocationCommandHandler.execute(location);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity updateLocation(@PathVariable int id, @RequestBody Location location){
         UpdateLocationCommand command = new UpdateLocationCommand(id,location);
         return updateLocationCommandHandler.execute(command);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteLocation(@PathVariable int id){
         return deleteLocationCommandHandler.execute(id);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Location>> searchLocations(@RequestParam(value = "name") String name){
+        return ResponseEntity.ok(locationRepository.findByNameContaining(name));
     }
 }

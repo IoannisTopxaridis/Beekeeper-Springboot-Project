@@ -5,6 +5,7 @@ import com.Beehive.beekeeper.Location.entities.LocationDTO;
 import com.Beehive.beekeeper.Location.repositories.LocationRepository;
 import com.Beehive.beekeeper.exceptions.LocationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ public class GetLocationQueryHandler implements Query<Integer, LocationDTO> {
     private LocationRepository locationRepository;
 
     @Override
+    @Cacheable("locationCache")
     public ResponseEntity<LocationDTO> execute(Integer id) {
         Optional<Location> location = locationRepository.findById(id);
         if (location.isEmpty()) {
